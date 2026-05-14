@@ -12,32 +12,39 @@ export default function Sidebar({ folders }: { folders: Folder[] }) {
   const pathname = usePathname()
 
   return (
-    <aside className="w-56 bg-white border-r border-gray-200 flex flex-col p-4 gap-1 shrink-0">
+    <aside className="w-52 bg-[var(--card-bg)] border-r border-[var(--border)] flex flex-col p-2 gap-0.5 shrink-0">
       <Link
         href="/"
-        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+        className={`px-3 py-2 rounded-md text-sm transition-colors ${
           pathname === '/'
-            ? 'bg-blue-50 text-blue-600'
-            : 'text-gray-700 hover:bg-gray-100'
+            ? 'bg-[var(--hover-bg)] text-[var(--accent)] font-medium'
+            : 'text-[var(--text)] nav-item-hover'
         }`}
       >
-        All
+        모든 링크
       </Link>
-      <div className="mt-2 flex flex-col gap-1">
-        {folders.map((folder) => (
-          <Link
-            key={folder.id}
-            href={`/folder/${folder.id}`}
-            className={`px-3 py-2 rounded-lg text-sm transition-colors ${
-              pathname === `/folder/${folder.id}`
-                ? 'bg-blue-50 text-blue-600 font-medium'
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            📁 {folder.name}
-          </Link>
-        ))}
-      </div>
+      {folders.length > 0 && (
+        <>
+          <div className="mt-3 mb-0.5 px-3 text-xs font-medium text-[var(--text-sub)] uppercase tracking-wider">
+            폴더
+          </div>
+          <div className="flex flex-col gap-0.5">
+            {folders.map((folder) => (
+              <Link
+                key={folder.id}
+                href={`/folder/${folder.id}`}
+                className={`px-3 py-2 rounded-md text-sm transition-colors ${
+                  pathname === `/folder/${folder.id}`
+                    ? 'bg-[var(--hover-bg)] text-[var(--accent)] font-medium'
+                    : 'text-[var(--text)] nav-item-hover'
+                }`}
+              >
+                📁 {folder.name}
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
     </aside>
   )
 }

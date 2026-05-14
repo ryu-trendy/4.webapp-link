@@ -9,7 +9,7 @@ export default function NewPage() {
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar folders={folders} />
-        <main className="flex-1 overflow-y-auto bg-gray-50">
+        <main className="flex-1 overflow-y-auto bg-[var(--bg)]">
           <NewLinkForm folders={folders} />
         </main>
       </div>
