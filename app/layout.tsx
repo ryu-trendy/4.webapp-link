@@ -6,6 +6,8 @@ import { LinkProvider } from "@/lib/link-context";
 import NewFolderModal from "@/components/NewFolderModal";
 import DeleteFolderModal from "@/components/DeleteFolderModal";
 import EditFolderModal from "@/components/EditFolderModal";
+import DeleteLinkModal from "@/components/DeleteLinkModal";
+import EditLinkModal from "@/components/EditLinkModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +41,8 @@ export default function RootLayout({
             <NewFolderModal />
             <DeleteFolderModal />
             <EditFolderModal />
+            <DeleteLinkModal />
+            <EditLinkModal />
           </LinkProvider>
         </FolderProvider>
       </body>
