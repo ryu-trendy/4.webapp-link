@@ -46,13 +46,26 @@ export function LinkProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const supabase = createClient()
-    supabase
-      .from('links')
-      .select('id, url, title, description, thumbnail_url, folder_id')
-      .order('created_at', { ascending: false })
-      .then(({ data }) => {
-        if (data) setLinks(data.map(rowToLinkItem))
-      })
+
+    const fetchLinks = async (userId: string) => {
+      const { data } = await supabase
+        .from('links')
+        .select('id, url, title, description, thumbnail_url, folder_id')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+      if (data) setLinks(data.map(rowToLinkItem))
+    }
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) fetchLinks(user.id)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      if (session?.user) fetchLinks(session.user.id)
+      else setLinks([])
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const addLink = async (link: Omit<LinkItem, 'id'>) => {

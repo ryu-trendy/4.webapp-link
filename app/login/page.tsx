@@ -23,11 +23,15 @@ export default function LoginPage() {
 
   const handleKakaoLogin = async () => {
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
-      options: { redirectTo: `${window.location.origin}/` },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     })
-    if (error) setToast('카카오 로그인을 사용할 수 없습니다')
+    if (error) {
+      setToast('카카오 로그인을 사용할 수 없습니다')
+      return
+    }
+    if (data.url) window.location.href = data.url
   }
 
   const handleLogin = async () => {
@@ -106,14 +110,14 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={handleKakaoLogin}
-            className="w-full flex justify-center"
+            className="w-full"
+            style={{ cursor: 'pointer' }}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/kakao_login_large_wide.png"
               alt="카카오 로그인"
-              width={300}
-              height={45}
-              className="w-full h-auto"
+              className="w-full h-auto pointer-events-none"
             />
           </button>
           <p className="text-center text-sm text-[var(--text-sub)]">
