@@ -131,6 +131,11 @@ export default function LoginPage() {
               회원가입
             </Link>
           </p>
+          <p className="text-center text-xs text-[var(--placeholder)]">
+            <Link href="/privacy" className="hover:underline">
+              개인정보 처리방침
+            </Link>
+          </p>
         </div>
       </div>
     </div>

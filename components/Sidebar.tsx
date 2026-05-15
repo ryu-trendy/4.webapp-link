@@ -92,13 +92,19 @@ export default function Sidebar() {
           </div>
         </>
       )}
-      <div className="mt-auto pt-2 border-t border-[var(--border)]">
+      <div className="mt-auto pt-2 border-t border-[var(--border)] flex flex-col gap-0.5">
         <button
           onClick={handleLogout}
           className="w-full px-3 py-2 rounded-md text-sm text-left text-[var(--text-sub)] nav-item-hover transition-colors"
         >
           로그아웃
         </button>
+        <Link
+          href="/privacy"
+          className="px-3 py-1.5 rounded-md text-xs text-[var(--placeholder)] nav-item-hover transition-colors"
+        >
+          개인정보 처리방침
+        </Link>
       </div>
     </aside>
   )
