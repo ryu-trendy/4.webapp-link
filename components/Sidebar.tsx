@@ -2,14 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useFolderContext } from '@/lib/folder-context'
 
-type Folder = {
-  id: string
-  name: string
-}
-
-export default function Sidebar({ folders }: { folders: Folder[] }) {
+export default function Sidebar() {
   const pathname = usePathname()
+  const { folders } = useFolderContext()
 
   return (
     <aside className="w-52 bg-[var(--card-bg)] border-r border-[var(--border)] flex flex-col p-2 gap-0.5 shrink-0">

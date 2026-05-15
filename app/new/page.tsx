@@ -8,7 +8,7 @@ export default function NewPage() {
     <div className="flex flex-col flex-1 h-screen">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar folders={folders} />
+        <Sidebar />
         <main className="flex-1 overflow-y-auto bg-[var(--bg)]">
           <NewLinkForm folders={folders} />
         </main>
