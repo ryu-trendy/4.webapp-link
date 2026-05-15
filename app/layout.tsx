@@ -22,6 +22,27 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "한입 링크",
   description: "나만의 링크 모음",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "한입 링크",
+    description: "나만의 링크 모음",
+    images: [
+      {
+        url: "/thumbnail.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "한입 링크",
+    description: "나만의 링크 모음",
+    images: ["/thumbnail.png"],
+  },
 };
 
 export default function RootLayout({
