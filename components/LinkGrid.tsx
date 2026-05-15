@@ -5,7 +5,7 @@ import { useLinkContext } from '@/lib/link-context'
 
 export default function LinkGrid({ folderId }: { folderId?: string }) {
   const { links } = useLinkContext()
-  const filtered = folderId ? links.filter(l => l.folderId === folderId) : links
+  const filtered = folderId ? links.filter(l => l.folderId === Number(folderId)) : links
 
   if (filtered.length === 0) {
     return (

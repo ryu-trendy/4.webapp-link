@@ -16,7 +16,7 @@ export default function EditLinkModal() {
     if (editLinkTarget) {
       setTitle(editLinkTarget.title)
       setDescription(editLinkTarget.description)
-      setFolderId(editLinkTarget.folderId ?? '')
+      setFolderId(editLinkTarget.folderId != null ? String(editLinkTarget.folderId) : '')
     }
   }, [editLinkTarget])
 
@@ -27,7 +27,7 @@ export default function EditLinkModal() {
     updateLink(editLinkTarget.id, {
       title: title.trim(),
       description: description.trim(),
-      folderId: folderId || null,
+      folderId: folderId ? Number(folderId) : null,
     })
     closeEditLinkModal()
   }

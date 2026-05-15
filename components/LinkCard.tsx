@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { useLinkContext } from '@/lib/link-context'
 
 export type LinkItem = {
-  id: string
+  id: number
   title: string
   url: string
   description: string
   thumbnail?: string
-  folderId: string | null
+  folderId: number | null
 }
 
 function PencilIcon() {

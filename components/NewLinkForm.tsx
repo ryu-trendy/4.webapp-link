@@ -28,12 +28,12 @@ export default function NewLinkForm() {
 
       if (!res.ok) throw new Error(data.error || '링크 정보를 가져올 수 없습니다')
 
-      addLink({
+      await addLink({
         title: data.title || trimmed,
         url: trimmed,
         description: data.description || '',
         thumbnail: data.image || undefined,
-        folderId: folderId || null,
+        folderId: folderId ? Number(folderId) : null,
       })
 
       router.push('/')
