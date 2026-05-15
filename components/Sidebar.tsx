@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useFolderContext } from '@/lib/folder-context'
+import { createClient } from '@/utils/supabase/client'
 
 function PencilIcon() {
   return (
@@ -27,7 +28,14 @@ function TrashIcon() {
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
   const { folders, openDeleteModal, openEditModal } = useFolderContext()
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/login')
+  }
 
   return (
     <aside className="w-52 bg-[var(--card-bg)] border-r border-[var(--border)] flex flex-col p-2 gap-0.5 shrink-0">
@@ -84,6 +92,14 @@ export default function Sidebar() {
           </div>
         </>
       )}
+      <div className="mt-auto pt-2 border-t border-[var(--border)]">
+        <button
+          onClick={handleLogout}
+          className="w-full px-3 py-2 rounded-md text-sm text-left text-[var(--text-sub)] nav-item-hover transition-colors"
+        >
+          로그아웃
+        </button>
+      </div>
     </aside>
   )
 }
