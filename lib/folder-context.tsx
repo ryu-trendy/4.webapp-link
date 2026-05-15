@@ -9,7 +9,7 @@ type FolderContextType = {
   folders: Folder[]
   addFolder: (name: string) => Promise<void>
   isAdding: boolean
-  removeFolder: (id: number) => void
+  removeFolder: (id: number) => Promise<void>
   updateFolder: (id: number, name: string) => Promise<void>
   isModalOpen: boolean
   openModal: () => void
@@ -58,7 +58,9 @@ export function FolderProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const removeFolder = (id: number) => {
+  const removeFolder = async (id: number) => {
+    const supabase = createClient()
+    await supabase.from('folders').delete().eq('id', id)
     setFolders(prev => prev.filter(f => f.id !== id))
   }
 
