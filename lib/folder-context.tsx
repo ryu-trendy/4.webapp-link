@@ -1,15 +1,16 @@
 'use client'
 
-import { createContext, useContext, useState, type ReactNode } from 'react'
-import { folders as initialFolders } from '@/lib/mock-data'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { createClient } from '@/utils/supabase/client'
 
-type Folder = { id: string; name: string }
+type Folder = { id: number; name: string }
 
 type FolderContextType = {
   folders: Folder[]
-  addFolder: (name: string) => void
-  removeFolder: (id: string) => void
-  updateFolder: (id: string, name: string) => void
+  addFolder: (name: string) => Promise<void>
+  isAdding: boolean
+  removeFolder: (id: number) => void
+  updateFolder: (id: number, name: string) => void
   isModalOpen: boolean
   openModal: () => void
   closeModal: () => void
@@ -24,20 +25,44 @@ type FolderContextType = {
 const FolderContext = createContext<FolderContextType | null>(null)
 
 export function FolderProvider({ children }: { children: ReactNode }) {
-  const [folders, setFolders] = useState<Folder[]>(initialFolders)
+  const [folders, setFolders] = useState<Folder[]>([])
+  const [isAdding, setIsAdding] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<Folder | null>(null)
   const [editTarget, setEditTarget] = useState<Folder | null>(null)
 
-  const addFolder = (name: string) => {
-    setFolders(prev => [...prev, { id: Date.now().toString(), name }])
+  useEffect(() => {
+    const supabase = createClient()
+    supabase
+      .from('folders')
+      .select('id, name')
+      .order('created_at', { ascending: true })
+      .then(({ data }) => {
+        if (data) setFolders(data)
+      })
+  }, [])
+
+  const addFolder = async (name: string) => {
+    if (isAdding) return
+    setIsAdding(true)
+    try {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('folders')
+        .insert({ name })
+        .select('id, name')
+        .single()
+      if (data) setFolders(prev => [...prev, data])
+    } finally {
+      setIsAdding(false)
+    }
   }
 
-  const removeFolder = (id: string) => {
+  const removeFolder = (id: number) => {
     setFolders(prev => prev.filter(f => f.id !== id))
   }
 
-  const updateFolder = (id: string, name: string) => {
+  const updateFolder = (id: number, name: string) => {
     setFolders(prev => prev.map(f => f.id === id ? { ...f, name } : f))
   }
 
@@ -45,6 +70,7 @@ export function FolderProvider({ children }: { children: ReactNode }) {
     <FolderContext.Provider value={{
       folders,
       addFolder,
+      isAdding,
       removeFolder,
       updateFolder,
       isModalOpen,

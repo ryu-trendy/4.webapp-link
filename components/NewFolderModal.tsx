@@ -4,15 +4,15 @@ import { useState } from 'react'
 import { useFolderContext } from '@/lib/folder-context'
 
 export default function NewFolderModal() {
-  const { isModalOpen, closeModal, addFolder } = useFolderContext()
+  const { isModalOpen, closeModal, addFolder, isAdding } = useFolderContext()
   const [name, setName] = useState('')
 
   if (!isModalOpen) return null
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const trimmed = name.trim()
-    if (!trimmed) return
-    addFolder(trimmed)
+    if (!trimmed || isAdding) return
+    await addFolder(trimmed)
     setName('')
     closeModal()
   }
@@ -50,10 +50,10 @@ export default function NewFolderModal() {
           </button>
           <button
             onClick={handleSave}
-            disabled={!name.trim()}
+            disabled={!name.trim() || isAdding}
             className="px-3 py-1.5 text-sm bg-[var(--accent)] text-white rounded-md hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            저장
+            {isAdding ? '저장 중...' : '저장'}
           </button>
         </div>
       </div>
