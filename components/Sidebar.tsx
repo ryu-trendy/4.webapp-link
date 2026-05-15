@@ -4,6 +4,15 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useFolderContext } from '@/lib/folder-context'
 
+function PencilIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  )
+}
+
 function TrashIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +27,7 @@ function TrashIcon() {
 
 export default function Sidebar() {
   const pathname = usePathname()
-  const { folders, openDeleteModal } = useFolderContext()
+  const { folders, openDeleteModal, openEditModal } = useFolderContext()
 
   return (
     <aside className="w-52 bg-[var(--card-bg)] border-r border-[var(--border)] flex flex-col p-2 gap-0.5 shrink-0">
@@ -55,6 +64,13 @@ export default function Sidebar() {
                   >
                     📁 {folder.name}
                   </Link>
+                  <button
+                    onClick={() => openEditModal(folder)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-[var(--text-sub)] hover:text-[var(--accent)] shrink-0 p-1"
+                    aria-label={`${folder.name} 수정`}
+                  >
+                    <PencilIcon />
+                  </button>
                   <button
                     onClick={() => openDeleteModal(folder)}
                     className="opacity-0 group-hover:opacity-100 transition-opacity pr-2 text-[var(--text-sub)] hover:text-[var(--error)] shrink-0"

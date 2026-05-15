@@ -4,6 +4,7 @@ import "./globals.css";
 import { FolderProvider } from "@/lib/folder-context";
 import NewFolderModal from "@/components/NewFolderModal";
 import DeleteFolderModal from "@/components/DeleteFolderModal";
+import EditFolderModal from "@/components/EditFolderModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
           {children}
           <NewFolderModal />
           <DeleteFolderModal />
+          <EditFolderModal />
         </FolderProvider>
       </body>
     </html>
