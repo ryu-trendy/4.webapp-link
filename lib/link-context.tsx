@@ -9,7 +9,7 @@ type LinkContextType = {
   addLink: (link: Omit<LinkItem, 'id'>) => Promise<void>
   isAdding: boolean
   removeLink: (id: number) => void
-  updateLink: (id: number, fields: Pick<LinkItem, 'title' | 'description' | 'folderId'>) => void
+  updateLink: (id: number, fields: Pick<LinkItem, 'title' | 'description' | 'folderId'>) => Promise<void>
   deleteLinkTarget: LinkItem | null
   openDeleteLinkModal: (link: LinkItem) => void
   closeDeleteLinkModal: () => void
@@ -81,7 +81,12 @@ export function LinkProvider({ children }: { children: ReactNode }) {
     setLinks(prev => prev.filter(l => l.id !== id))
   }
 
-  const updateLink = (id: number, fields: Pick<LinkItem, 'title' | 'description' | 'folderId'>) => {
+  const updateLink = async (id: number, fields: Pick<LinkItem, 'title' | 'description' | 'folderId'>) => {
+    const supabase = createClient()
+    await supabase
+      .from('links')
+      .update({ title: fields.title, description: fields.description, folder_id: fields.folderId })
+      .eq('id', id)
     setLinks(prev => prev.map(l => l.id === id ? { ...l, ...fields } : l))
   }
 
