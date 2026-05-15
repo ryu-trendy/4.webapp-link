@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
@@ -19,6 +20,15 @@ export default function LoginPage() {
   }, [toast])
 
   const canSubmit = email.trim() && password && !isLoading
+
+  const handleKakaoLogin = async () => {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'kakao',
+      options: { redirectTo: `${window.location.origin}/` },
+    })
+    if (error) setToast('카카오 로그인을 사용할 수 없습니다')
+  }
 
   const handleLogin = async () => {
     if (!canSubmit) return
@@ -92,6 +102,19 @@ export default function LoginPage() {
             className="mt-2 w-full py-2 bg-[var(--accent)] text-white text-sm font-medium rounded-md hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isLoading ? '처리 중...' : '로그인'}
+          </button>
+          <button
+            type="button"
+            onClick={handleKakaoLogin}
+            className="w-full flex justify-center"
+          >
+            <Image
+              src="/kakao_login_large_wide.png"
+              alt="카카오 로그인"
+              width={300}
+              height={45}
+              className="w-full h-auto"
+            />
           </button>
           <p className="text-center text-sm text-[var(--text-sub)]">
             <Link href="/reset-password" className="text-[var(--accent)] hover:underline">
