@@ -1,7 +1,6 @@
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import LinkGrid from '@/components/LinkGrid'
-import { links } from '@/lib/mock-data'
 
 export default function Page() {
   return (
@@ -10,7 +9,7 @@ export default function Page() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <main className="flex-1 overflow-y-auto bg-[var(--bg)]">
-          <LinkGrid links={links} />
+          <LinkGrid />
         </main>
       </div>
     </div>

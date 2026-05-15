@@ -1,7 +1,6 @@
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import NewLinkForm from '@/components/NewLinkForm'
-import { folders } from '@/lib/mock-data'
 
 export default function NewPage() {
   return (
@@ -10,7 +9,7 @@ export default function NewPage() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <main className="flex-1 overflow-y-auto bg-[var(--bg)]">
-          <NewLinkForm folders={folders} />
+          <NewLinkForm />
         </main>
       </div>
     </div>
